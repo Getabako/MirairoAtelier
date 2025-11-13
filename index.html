@@ -102,6 +102,123 @@
             50% { filter: hue-rotate(20deg); }
         }
 
+        /* ハンバーガーメニュー */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 22px;
+            cursor: pointer;
+            z-index: 1001;
+            position: relative;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: linear-gradient(135deg, #FF6B9D, #C44DFF);
+            border-radius: 3px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(9.5px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-9.5px) rotate(-45deg);
+        }
+
+        /* メニューオーバーレイ */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.98), rgba(16, 33, 62, 0.98));
+            backdrop-filter: blur(20px);
+            z-index: 999;
+            transition: right 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            padding: 100px 40px 40px;
+            overflow-y: auto;
+        }
+
+        .menu-overlay.active {
+            right: 0;
+            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-items li {
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.4s ease;
+        }
+
+        .menu-overlay.active .menu-items li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .menu-overlay.active .menu-items li:nth-child(1) { transition-delay: 0.1s; }
+        .menu-overlay.active .menu-items li:nth-child(2) { transition-delay: 0.2s; }
+        .menu-overlay.active .menu-items li:nth-child(3) { transition-delay: 0.3s; }
+        .menu-overlay.active .menu-items li:nth-child(4) { transition-delay: 0.4s; }
+        .menu-overlay.active .menu-items li:nth-child(5) { transition-delay: 0.5s; }
+
+        .menu-items a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: block;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, transparent, transparent);
+        }
+
+        .menu-items a:hover {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.2), rgba(196, 77, 255, 0.2));
+            transform: translateX(10px);
+            padding-left: 2rem;
+        }
+
+        .menu-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 998;
+        }
+
+        .menu-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
         /* ヒーローセクション */
         .hero {
             min-height: 70vh;
@@ -167,8 +284,8 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
         }
 
         .action-card {
@@ -220,9 +337,12 @@
         }
 
         .action-icon {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1.5rem;
             display: block;
+            background: linear-gradient(135deg, #FF6B9D, #C44DFF);
+            border-radius: 15px;
             filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
         }
 
@@ -242,19 +362,18 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        .action-card.primary {
-            grid-column: span 2;
+        .action-card.line-card {
             background: linear-gradient(135deg, rgba(0, 185, 0, 0.15), rgba(0, 230, 0, 0.15));
             border-color: rgba(0, 185, 0, 0.5);
         }
 
-        .action-card.primary:hover {
+        .action-card.line-card:hover {
             border-color: rgba(0, 230, 0, 0.7);
             box-shadow: 0 25px 60px rgba(0, 185, 0, 0.5);
             background: linear-gradient(135deg, rgba(0, 185, 0, 0.25), rgba(0, 230, 0, 0.25));
         }
 
-        .action-card.primary .action-title {
+        .action-card.line-card .action-title {
             background: linear-gradient(135deg, #00E600, #4DFFDF);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -330,6 +449,7 @@
         .floating-line a {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.8rem;
             padding: 1rem 2rem;
             background: linear-gradient(135deg, #00B900, #00E600);
@@ -345,10 +465,6 @@
         .floating-line a:hover {
             transform: scale(1.05);
             box-shadow: 0 12px 35px rgba(0, 185, 0, 0.7);
-        }
-
-        .line-icon {
-            font-size: 1.5rem;
         }
 
         @keyframes pulse {
@@ -486,8 +602,11 @@
         }
 
         .about-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            border-radius: 12px;
         }
 
         .about-card h3 {
@@ -547,9 +666,12 @@
         }
 
         .feature-emoji {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
+            width: 55px;
+            height: 55px;
+            margin: 0 auto 1.5rem;
             display: block;
+            background: linear-gradient(135deg, #4DFFDF, #FF6B9D);
+            border-radius: 12px;
         }
 
         .feature-card h3 {
@@ -685,10 +807,6 @@
                 gap: 1.5rem;
             }
 
-            .action-card.primary {
-                grid-column: span 1;
-            }
-
             .action-card {
                 min-height: 240px;
                 padding: 2.5rem 1.5rem;
@@ -739,15 +857,32 @@
     <!-- フローティングLINEボタン -->
     <div class="floating-line">
         <a href="https://lin.ee/Jvzc98F" target="_blank">
-            <span class="line-icon">💬</span>
             <span>LINE参加</span>
         </a>
+    </div>
+
+    <!-- メニューバックドロップ -->
+    <div class="menu-backdrop" id="menuBackdrop"></div>
+
+    <!-- メニューオーバーレイ -->
+    <div class="menu-overlay" id="menuOverlay">
+        <ul class="menu-items">
+            <li><a href="#about">アトリエについて</a></li>
+            <li><a href="#features">コミュニティの特徴</a></li>
+            <li><a href="#vision">ビジョン</a></li>
+            <li><a href="https://lin.ee/Jvzc98F" target="_blank">LINEコミュニティ</a></li>
+        </ul>
     </div>
 
     <!-- ナビゲーション -->
     <nav id="navbar">
         <div class="nav-container">
             <div class="logo">ミライロ・アトリエ</div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
@@ -771,30 +906,30 @@
     <!-- メインアクションセクション -->
     <section class="main-actions fade-in">
         <div class="action-cards">
-            <a href="https://lin.ee/Jvzc98F" target="_blank" class="action-card primary">
+            <a href="https://lin.ee/Jvzc98F" target="_blank" class="action-card line-card">
                 <div class="action-card-content">
-                    <span class="action-icon">💬</span>
+                    <div class="action-icon"></div>
                     <h2 class="action-title">LINEコミュニティに参加</h2>
                     <p class="action-description">無料で参加できるLINEコミュニティ。同じ境遇の仲間や保護者と、安心して交流できます。</p>
                 </div>
             </a>
             <a href="#features" class="action-card">
                 <div class="action-card-content">
-                    <span class="action-icon">🎪</span>
+                    <div class="action-icon"></div>
                     <h2 class="action-title">イベント情報</h2>
                     <p class="action-description">オンラインイベントやワークショップの開催情報をチェック。</p>
                 </div>
             </a>
             <a href="#about" class="action-card">
                 <div class="action-card-content">
-                    <span class="action-icon">🎭</span>
+                    <div class="action-icon"></div>
                     <h2 class="action-title">Vtuberと交流</h2>
                     <p class="action-description">将来カフェの店員になるVtuberたちと今から交流できます。</p>
                 </div>
             </a>
             <a href="#vision" class="action-card">
                 <div class="action-card-content">
-                    <span class="action-icon">🎨</span>
+                    <div class="action-icon"></div>
                     <h2 class="action-title">アトリエについて</h2>
                     <p class="action-description">ミライロ・アトリエのビジョンと、あなたができることを知る。</p>
                 </div>
@@ -809,21 +944,21 @@
             <div class="about-content">
                 <div class="about-card">
                     <div class="about-card-content">
-                        <div class="about-icon">🎨</div>
+                        <div class="about-icon"></div>
                         <h3>アーティスティックな空間</h3>
                         <p>不登校の子どもたちが自分の得意や好きを活かせる、創造性あふれる空間です。アート、音楽、クリエイティブ、ゲーム…あなたの才能が輝きます。</p>
                     </div>
                 </div>
                 <div class="about-card">
                     <div class="about-card-content">
-                        <div class="about-icon">🤝</div>
+                        <div class="about-icon"></div>
                         <h3>同じ想いの仲間</h3>
                         <p>不登校の子どもたち、そして保護者の方々が安心して集まれるコミュニティ。誰もがありのままでいられる、温かい居場所です。</p>
                     </div>
                 </div>
                 <div class="about-card">
                     <div class="about-card-content">
-                        <div class="about-icon">💫</div>
+                        <div class="about-icon"></div>
                         <h3>未来へのステップ</h3>
                         <p>将来的にはリアルカフェも展開予定。Vtuberが店員として活躍し、不登校の経験を持つメンバーが運営する、新しい形のカフェを目指します。</p>
                     </div>
@@ -839,42 +974,42 @@
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-content">
-                        <span class="feature-emoji">🎭</span>
+                        <div class="feature-emoji"></div>
                         <h3>Vtuberとの交流</h3>
                         <p>最新のバーチャル技術を活用。将来カフェの店員となるVtuberたちと、今からオンラインで交流できます。</p>
                     </div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-content">
-                        <span class="feature-emoji">🎪</span>
+                        <div class="feature-emoji"></div>
                         <h3>イベント開催</h3>
                         <p>オンラインイベント、ワークショップ、創作活動など、楽しいイベントを定期的に開催。あなたの「好き」を見つけよう。</p>
                     </div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-content">
-                        <span class="feature-emoji">💬</span>
+                        <div class="feature-emoji"></div>
                         <h3>安心の交流スペース</h3>
                         <p>LINEで気軽にコミュニケーション。同じ境遇の仲間や保護者と、悩みや喜びを共有できます。</p>
                     </div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-content">
-                        <span class="feature-emoji">🌟</span>
+                        <div class="feature-emoji"></div>
                         <h3>才能を活かす場</h3>
                         <p>絵を描くのが好き、音楽が好き、ゲームが得意…あなたの才能を発揮できる機会がたくさんあります。</p>
                     </div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-content">
-                        <span class="feature-emoji">🏠</span>
+                        <div class="feature-emoji"></div>
                         <h3>居場所づくり</h3>
                         <p>学校に行けなくても大丈夫。ここがあなたの新しい居場所。無理せず、自分のペースで参加できます。</p>
                     </div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-content">
-                        <span class="feature-emoji">🚀</span>
+                        <div class="feature-emoji"></div>
                         <h3>未来への挑戦</h3>
                         <p>将来のリアルカフェ運営にも参加チャンス。不登校の経験を活かして、新しい働き方を一緒に創造しましょう。</p>
                     </div>
@@ -1004,6 +1139,32 @@
                 document.body.style.transition = 'opacity 0.5s ease';
                 document.body.style.opacity = '1';
             }, 100);
+        });
+
+        // ハンバーガーメニュー
+        const hamburger = document.getElementById('hamburger');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menuBackdrop = document.getElementById('menuBackdrop');
+        const menuItems = document.querySelectorAll('.menu-items a');
+
+        function toggleMenu() {
+            hamburger.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            menuBackdrop.classList.toggle('active');
+            document.body.style.overflow = menuOverlay.classList.contains('active') ? 'hidden' : '';
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+        menuBackdrop.addEventListener('click', toggleMenu);
+
+        // メニュー項目をクリックしたらメニューを閉じる
+        menuItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                // 外部リンクでない場合のみメニューを閉じる
+                if (item.getAttribute('href').startsWith('#')) {
+                    toggleMenu();
+                }
+            });
         });
     </script>
 </body>
