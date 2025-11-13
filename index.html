@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ミライロ・アトリエ - 不登校のためのワクワクするコミュニティカフェ。Vtuberが店員、アートな空間で、あなたの「得意」が輝く場所。">
+    <title>ミライロ・アトリエ | 未来色のアトリエ</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #FF6B9D;
+            --secondary-color: #C44DFF;
+            --accent-color: #4DFFDF;
+            --dark-color: #1a1a2e;
+            --light-color: #ffffff;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: var(--dark-color);
+            color: var(--light-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* アニメーション背景 */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ナビゲーション */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(26, 26, 46, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B9D, #C44DFF, #4DFFDF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(20deg); }
+        }
+
+        /* ヒーローセクション */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FF6B9D, #C44DFF, #4DFFDF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+        }
+
+        .hero .tagline {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+        }
+
+        .hero .description {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ボタン */
+        .btn {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #FF6B9D, #C44DFF);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #C44DFF, #4DFFDF);
+            transition: left 0.3s ease;
+        }
+
+        .btn:hover::before {
+            left: 0;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
+        }
+
+        /* LINE専用ボタン */
+        .btn-line {
+            background: linear-gradient(135deg, #00B900, #00E600);
+            box-shadow: 0 10px 30px rgba(0, 185, 0, 0.4);
+        }
+
+        .btn-line::before {
+            background: linear-gradient(135deg, #00E600, #4DFFDF);
+        }
+
+        .btn-line:hover {
+            box-shadow: 0 15px 40px rgba(0, 185, 0, 0.6);
+        }
+
+        /* フローティングLINEボタン */
+        .floating-line {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .floating-line a {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #00B900, #00E600);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(0, 185, 0, 0.5);
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .floating-line a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(0, 185, 0, 0.7);
+        }
+
+        .line-icon {
+            font-size: 1.5rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* フローティング要素 */
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FF6B9D, #C44DFF);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #C44DFF, #4DFFDF);
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #4DFFDF, #FF6B9D);
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+            }
+        }
+
+        /* セクション共通 */
+        section {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #FF6B9D, #C44DFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+
+        /* About セクション */
+        .about {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(196, 77, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 107, 157, 0.2);
+            border-color: rgba(255, 107, 157, 0.5);
+        }
+
+        .about-card:hover::before {
+            opacity: 1;
+        }
+
+        .about-card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        /* Features セクション */
+        .features {
+            padding: 8rem 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 2.5rem;
+            border-radius: 25px;
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg, transparent, rgba(255, 107, 157, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .feature-card:hover::before {
+            top: 100%;
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(255, 107, 157, 0.5);
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(255, 107, 157, 0.3);
+        }
+
+        .feature-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4DFFDF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+
+        /* Vision セクション */
+        .vision {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .vision-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .vision-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .vision-highlights {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .highlight {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.2), rgba(196, 77, 255, 0.2));
+            border-radius: 50px;
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* CTA セクション */
+        .cta {
+            padding: 8rem 2rem;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 4rem;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            border-radius: 30px;
+            border: 2px solid rgba(255, 107, 157, 0.3);
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.2);
+        }
+
+        .cta h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #FF6B9D, #4DFFDF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B9D, #C44DFF, #4DFFDF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 1rem;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            section {
+                padding: 4rem 1rem;
+            }
+
+            .features-grid,
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-content {
+                padding: 2rem;
+            }
+
+            .vision-highlights {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .floating-line {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .floating-line a {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* スクロールアニメーション用 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- アニメーション背景 -->
+    <div class="animated-bg"></div>
+
+    <!-- フローティングLINEボタン -->
+    <div class="floating-line">
+        <a href="https://lin.ee/Jvzc98F" target="_blank">
+            <span class="line-icon">💬</span>
+            <span>LINE参加</span>
+        </a>
+    </div>
+
+    <!-- ナビゲーション -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">ミライロ・アトリエ</div>
+        </div>
+    </nav>
+
+    <!-- ヒーローセクション -->
+    <section class="hero">
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+        <div class="hero-content">
+            <h1>ミライロ・アトリエ</h1>
+            <p class="tagline">未来色のアトリエへようこそ</p>
+            <p class="description">
+                不登校の子どもたちと、その保護者が集まる新しいコミュニティ。<br>
+                Vtuberが店員、アートな空間、そしてあなたの「得意」が輝く場所。<br>
+                ここから、あなただけの未来が始まります。
+            </p>
+            <a href="https://lin.ee/Jvzc98F" target="_blank" class="btn">
+                <span>LINEコミュニティに参加する</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- About セクション -->
+    <section class="about fade-in">
+        <div class="container">
+            <h2 class="section-title">ミライロ・アトリエとは？</h2>
+            <div class="about-content">
+                <div class="about-card">
+                    <div class="about-card-content">
+                        <div class="about-icon">🎨</div>
+                        <h3>アーティスティックな空間</h3>
+                        <p>不登校の子どもたちが自分の得意や好きを活かせる、創造性あふれる空間です。アート、音楽、クリエイティブ、ゲーム…あなたの才能が輝きます。</p>
+                    </div>
+                </div>
+                <div class="about-card">
+                    <div class="about-card-content">
+                        <div class="about-icon">🤝</div>
+                        <h3>同じ想いの仲間</h3>
+                        <p>不登校の子どもたち、そして保護者の方々が安心して集まれるコミュニティ。誰もがありのままでいられる、温かい居場所です。</p>
+                    </div>
+                </div>
+                <div class="about-card">
+                    <div class="about-card-content">
+                        <div class="about-icon">💫</div>
+                        <h3>未来へのステップ</h3>
+                        <p>将来的にはリアルカフェも展開予定。Vtuberが店員として活躍し、不登校の経験を持つメンバーが運営する、新しい形のカフェを目指します。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features セクション -->
+    <section class="features fade-in">
+        <div class="container">
+            <h2 class="section-title">コミュニティの特徴</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <span class="feature-emoji">🎭</span>
+                        <h3>Vtuberとの交流</h3>
+                        <p>最新のバーチャル技術を活用。将来カフェの店員となるVtuberたちと、今からオンラインで交流できます。</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <span class="feature-emoji">🎪</span>
+                        <h3>イベント開催</h3>
+                        <p>オンラインイベント、ワークショップ、創作活動など、楽しいイベントを定期的に開催。あなたの「好き」を見つけよう。</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <span class="feature-emoji">💬</span>
+                        <h3>安心の交流スペース</h3>
+                        <p>LINEで気軽にコミュニケーション。同じ境遇の仲間や保護者と、悩みや喜びを共有できます。</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <span class="feature-emoji">🌟</span>
+                        <h3>才能を活かす場</h3>
+                        <p>絵を描くのが好き、音楽が好き、ゲームが得意…あなたの才能を発揮できる機会がたくさんあります。</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <span class="feature-emoji">🏠</span>
+                        <h3>居場所づくり</h3>
+                        <p>学校に行けなくても大丈夫。ここがあなたの新しい居場所。無理せず、自分のペースで参加できます。</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <span class="feature-emoji">🚀</span>
+                        <h3>未来への挑戦</h3>
+                        <p>将来のリアルカフェ運営にも参加チャンス。不登校の経験を活かして、新しい働き方を一緒に創造しましょう。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision セクション -->
+    <section class="vision fade-in">
+        <div class="container">
+            <h2 class="section-title">私たちのビジョン</h2>
+            <div class="vision-content">
+                <p class="vision-text">
+                    ミライロ・アトリエは、不登校の子どもたちが運営する、不登校のためのコミュニティカフェです。
+                    「学校に行けない」ではなく、「ここがある」と思える場所。
+                    Vtuberが活躍し、アートが溢れ、一人ひとりの得意が輝く空間を創ります。
+                </p>
+                <div class="vision-highlights">
+                    <div class="highlight">創造性</div>
+                    <div class="highlight">多様性</div>
+                    <div class="highlight">可能性</div>
+                    <div class="highlight">未来志向</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA セクション -->
+    <section class="cta fade-in" id="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>今すぐ参加しよう！</h2>
+                <p>LINEコミュニティで、あなたの未来色を見つけませんか？<br>無料で参加できます。</p>
+                <a href="https://lin.ee/Jvzc98F" target="_blank" class="btn btn-line">
+                    <span>LINE追加はこちら</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">ミライロ・アトリエ</div>
+            <p class="footer-text">
+                Mirairo Atelier - Where Your Future Colors Begin<br>
+                &copy; 2024 Mirairo Atelier. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // ナビゲーションのスクロール効果
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // スクロールアニメーション
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // 全ての.fade-in要素を監視
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+
+        // スムーズスクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href !== '#cta') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // パララックス効果
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const floatingElements = document.querySelectorAll('.floating-element');
+
+            floatingElements.forEach((element, index) => {
+                const speed = 0.5 + (index * 0.2);
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // カードホバーエフェクト
+        const cards = document.querySelectorAll('.feature-card, .about-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.zIndex = '10';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.zIndex = '1';
+            });
+        });
+
+        // ページロード時のアニメーション
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
