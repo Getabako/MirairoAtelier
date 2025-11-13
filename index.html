@@ -104,18 +104,18 @@
 
         /* ヒーローセクション */
         .hero {
-            min-height: 100vh;
+            min-height: 70vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 2rem;
+            padding: 8rem 2rem 4rem;
             position: relative;
             overflow: hidden;
         }
 
         .hero-content {
-            max-width: 800px;
+            max-width: 900px;
             z-index: 1;
             animation: fadeInUp 1s ease;
         }
@@ -150,10 +150,115 @@
         }
 
         .hero .description {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            margin-bottom: 3rem;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            margin-bottom: 0;
             line-height: 1.8;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 400;
+        }
+
+        /* メインアクションセクション */
+        .main-actions {
+            padding: 4rem 2rem 8rem;
+            position: relative;
+        }
+
+        .action-cards {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            border: 2px solid rgba(255, 107, 157, 0.3);
+            border-radius: 25px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg, transparent, rgba(255, 107, 157, 0.15), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .action-card:hover::before {
+            top: 100%;
+            left: 100%;
+        }
+
+        .action-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            border-color: rgba(255, 107, 157, 0.6);
+            box-shadow: 0 25px 60px rgba(255, 107, 157, 0.4);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.25), rgba(118, 75, 162, 0.25));
+        }
+
+        .action-card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .action-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        .action-title {
+            font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FF6B9D, #4DFFDF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .action-description {
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .action-card.primary {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(0, 185, 0, 0.15), rgba(0, 230, 0, 0.15));
+            border-color: rgba(0, 185, 0, 0.5);
+        }
+
+        .action-card.primary:hover {
+            border-color: rgba(0, 230, 0, 0.7);
+            box-shadow: 0 25px 60px rgba(0, 185, 0, 0.5);
+            background: linear-gradient(135deg, rgba(0, 185, 0, 0.25), rgba(0, 230, 0, 0.25));
+        }
+
+        .action-card.primary .action-title {
+            background: linear-gradient(135deg, #00E600, #4DFFDF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         /* ボタン */
@@ -563,11 +668,30 @@
             }
 
             .hero {
-                padding: 2rem 1rem;
+                padding: 6rem 1rem 3rem;
+                min-height: 60vh;
             }
 
             section {
                 padding: 4rem 1rem;
+            }
+
+            .main-actions {
+                padding: 3rem 1rem 6rem;
+            }
+
+            .action-cards {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .action-card.primary {
+                grid-column: span 1;
+            }
+
+            .action-card {
+                min-height: 240px;
+                padding: 2.5rem 1.5rem;
             }
 
             .features-grid,
@@ -636,20 +760,50 @@
         </div>
         <div class="hero-content">
             <h1>ミライロ・アトリエ</h1>
-            <p class="tagline">未来色のアトリエへようこそ</p>
+            <p class="tagline">不登校のあなたが、主役になれる場所</p>
             <p class="description">
-                不登校の子どもたちと、その保護者が集まる新しいコミュニティ。<br>
-                Vtuberが店員、アートな空間、そしてあなたの「得意」が輝く場所。<br>
-                ここから、あなただけの未来が始まります。
+                Vtuberが店員のカフェ、アートな空間、仲間との交流。<br>
+                ここから、あなただけの未来色が始まります。
             </p>
-            <a href="https://lin.ee/Jvzc98F" target="_blank" class="btn">
-                <span>LINEコミュニティに参加する</span>
+        </div>
+    </section>
+
+    <!-- メインアクションセクション -->
+    <section class="main-actions fade-in">
+        <div class="action-cards">
+            <a href="https://lin.ee/Jvzc98F" target="_blank" class="action-card primary">
+                <div class="action-card-content">
+                    <span class="action-icon">💬</span>
+                    <h2 class="action-title">LINEコミュニティに参加</h2>
+                    <p class="action-description">無料で参加できるLINEコミュニティ。同じ境遇の仲間や保護者と、安心して交流できます。</p>
+                </div>
+            </a>
+            <a href="#features" class="action-card">
+                <div class="action-card-content">
+                    <span class="action-icon">🎪</span>
+                    <h2 class="action-title">イベント情報</h2>
+                    <p class="action-description">オンラインイベントやワークショップの開催情報をチェック。</p>
+                </div>
+            </a>
+            <a href="#about" class="action-card">
+                <div class="action-card-content">
+                    <span class="action-icon">🎭</span>
+                    <h2 class="action-title">Vtuberと交流</h2>
+                    <p class="action-description">将来カフェの店員になるVtuberたちと今から交流できます。</p>
+                </div>
+            </a>
+            <a href="#vision" class="action-card">
+                <div class="action-card-content">
+                    <span class="action-icon">🎨</span>
+                    <h2 class="action-title">アトリエについて</h2>
+                    <p class="action-description">ミライロ・アトリエのビジョンと、あなたができることを知る。</p>
+                </div>
             </a>
         </div>
     </section>
 
     <!-- About セクション -->
-    <section class="about fade-in">
+    <section class="about fade-in" id="about">
         <div class="container">
             <h2 class="section-title">ミライロ・アトリエとは？</h2>
             <div class="about-content">
@@ -679,7 +833,7 @@
     </section>
 
     <!-- Features セクション -->
-    <section class="features fade-in">
+    <section class="features fade-in" id="features">
         <div class="container">
             <h2 class="section-title">コミュニティの特徴</h2>
             <div class="features-grid">
@@ -730,7 +884,7 @@
     </section>
 
     <!-- Vision セクション -->
-    <section class="vision fade-in">
+    <section class="vision fade-in" id="vision">
         <div class="container">
             <h2 class="section-title">私たちのビジョン</h2>
             <div class="vision-content">
