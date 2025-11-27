@@ -88,13 +88,13 @@
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #FF6B9D, #C44DFF, #4DFFDF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 3s ease infinite;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 45px;
+            width: auto;
         }
 
         @keyframes gradientShift {
@@ -249,14 +249,13 @@
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #FF6B9D, #C44DFF, #4DFFDF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 900;
-            letter-spacing: 0.02em;
+        }
+
+        .hero h1 img {
+            max-width: 100%;
+            width: clamp(280px, 60vw, 550px);
+            height: auto;
         }
 
         .hero .tagline {
@@ -769,13 +768,12 @@
         }
 
         .footer-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #FF6B9D, #C44DFF, #4DFFDF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
             margin-bottom: 1rem;
+        }
+
+        .footer-logo img {
+            height: 60px;
+            width: auto;
         }
 
         .footer-text {
@@ -877,7 +875,7 @@
     <!-- ナビゲーション -->
     <nav id="navbar">
         <div class="nav-container">
-            <div class="logo">ミライロ・アトリエ</div>
+            <div class="logo"><img src="images/logo.png" alt="ミライロ・アトリエ"></div>
             <div class="hamburger" id="hamburger">
                 <span></span>
                 <span></span>
@@ -894,7 +892,7 @@
             <div class="floating-element"></div>
         </div>
         <div class="hero-content">
-            <h1>ミライロ・アトリエ</h1>
+            <h1><img src="images/logo.png" alt="ミライロ・アトリエ"></h1>
             <p class="tagline">不登校のあなたが、主役になれる場所</p>
             <p class="description">
                 Vtuberが店員のカフェ、アートな空間、仲間との交流。<br>
@@ -1054,7 +1052,7 @@
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <div class="footer-logo">ミライロ・アトリエ</div>
+            <div class="footer-logo"><img src="images/logo.png" alt="ミライロ・アトリエ"></div>
             <p class="footer-text">
                 Mirairo Atelier - Where Your Future Colors Begin<br>
                 &copy; 2024 Mirairo Atelier. All rights reserved.
